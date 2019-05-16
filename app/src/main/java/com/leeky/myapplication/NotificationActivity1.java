@@ -48,13 +48,13 @@ public class NotificationActivity1 extends AppCompatActivity {
         actionView = findViewById(R.id.actionView);
 
 
-//        listener = new NotificationSampleListener(this);
-//        task = new DownloadTask
-//                .Builder(DemoUtil.URL, DemoUtil.getParentFile(this))
-//                .setPassIfAlreadyCompleted(false)
-//                .setMinIntervalMillisCallbackProcess(80)
-//                .setAutoCallbackToUIThread(false)
-//                .build();
+        listener = new NotificationSampleListener(this);
+        task = new DownloadTask
+                .Builder(DemoUtil.URL, DemoUtil.getParentFile(this))
+                .setPassIfAlreadyCompleted(false)
+                .setMinIntervalMillisCallbackProcess(80)
+                .setAutoCallbackToUIThread(false)
+                .build();
 
         downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
         downloadUtil.initListener(actionTv);
