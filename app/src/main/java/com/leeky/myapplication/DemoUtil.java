@@ -31,6 +31,11 @@ public class DemoUtil {
     public static final String APK_NAME =
             "notification-file.apk";
 
+    public static final String ADURL = "http://img.zcool.cn/community/01e51e581074cda84a0d304ff02d18.png@1280w_1l_2o_100sh.png";
+    public static final String ADURL1 = "https://wx1.sinaimg.cn/mw690/7fca44e7gy1fujiej32k9j20u01hcnjq.jpg";
+    public static final String ADIMAGE_NAME = "AdImg";
+
+
     public static void calcProgressToView(ProgressBar progressBar, long offset, long total) {
         final float percent = (float) offset / total;
         progressBar.setProgress((int) (percent * progressBar.getMax()));
