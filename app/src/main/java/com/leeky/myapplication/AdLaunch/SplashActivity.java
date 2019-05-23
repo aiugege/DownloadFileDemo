@@ -1,17 +1,21 @@
 package com.leeky.myapplication.AdLaunch;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -50,18 +54,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        getWindow().getDecorView().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(SplashActivity.this, AdActivity.class));
-            }
-        }, 2000);
-
         mPreferences = getSharedPreferences("APP", Context.MODE_PRIVATE);
         editor = mPreferences.edit();
 
-
-        gotoNext(DemoUtil.ADURL1);
+        checkPermission();
 
     }
 
@@ -76,6 +72,48 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+            getWindow().getDecorView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(SplashActivity.this, AdActivity.class));
+                }
+            }, 2000);
+
+            gotoNext(DemoUtil.ADURL);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getWindow().getDecorView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(SplashActivity.this, AdActivity.class));
+                        }
+                    }, 2000);
+
+                    gotoNext(DemoUtil.ADURL);
+                } else {
+                    Toast.makeText(this, "you denied the permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            default:
+                break;
+
+
+        }
     }
 
     private void SaveImageFromDataSource(String url, final String fileName) {
@@ -114,36 +152,37 @@ public class SplashActivity extends AppCompatActivity {
 
     public Boolean saveBitmap(Bitmap bitmap, String fileName) {
 
-            String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)
-                    ? Environment.getExternalStorageDirectory().getAbsolutePath()
-                    : "/mnt/sdcard";
+        String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)
+                ? Environment.getExternalStorageDirectory().getAbsolutePath()
+                : "/mnt/sdcard";
 
-            File appDir = new File(SAVE_PIC_PATH + "/ABC/");
-            if (!appDir.exists()) {
-                appDir.mkdir();
-            }
+        File appDir = new File(SAVE_PIC_PATH + "/ABC/");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
 
-            long nowSystemTime = System.currentTimeMillis();
-            File file = new File(appDir, fileName + ".png");
-            try {
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                FileOutputStream fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.flush();
-                fos.close();
+        long nowSystemTime = System.currentTimeMillis();
+        File file = new File(appDir, fileName + ".png");
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
             }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return false;
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-            return true;
+        return true;
+
     }
 
     public static Bitmap getBitmap(String fileName) {
