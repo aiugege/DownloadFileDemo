@@ -86,7 +86,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, 2000);
 
-            gotoNext(DemoUtil.ADURL);
+            gotoNext(DemoUtil.ADURL1);
         }
     }
 
@@ -103,7 +103,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }, 2000);
 
-                    gotoNext(DemoUtil.ADURL);
+                    gotoNext(DemoUtil.ADURL1);
                 } else {
                     Toast.makeText(this, "you denied the permission", Toast.LENGTH_SHORT).show();
                 }
