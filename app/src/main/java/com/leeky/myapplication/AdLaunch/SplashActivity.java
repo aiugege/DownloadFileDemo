@@ -30,10 +30,11 @@ import com.leeky.myapplication.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import com.leeky.myapplication.DemoUtil;
-
+import com.leeky.myapplication.utils.AESEncryption;
 
 /**
  * Created by Leeky on 2019/5/22.
@@ -58,22 +59,23 @@ public class SplashActivity extends AppCompatActivity {
 
         mPreferences = getSharedPreferences("APP", Context.MODE_PRIVATE);
         editor = mPreferences.edit();
-        editor.putString("imgUrl", DemoUtil.ADURL);
-        editor.commit();
 
-        gotoNext(DemoUtil.ADURL);
+
+        gotoNext(DemoUtil.ADURL1);
 
     }
 
     private void gotoNext(String url) {
-        if (getBitmap(DemoUtil.ADIMAGE_NAME) != null) {
+        if (!TextUtils.isEmpty(url)) {
+            if (getBitmap(DemoUtil.getPicName(url)) == null || !url.equals(mPreferences.getString("imgUrl", ""))) {
+                editor.putString("imgUrl", url);
+                editor.commit();
+                SaveImageFromDataSource(url, DemoUtil.getPicName(url));
+            } else {
 
-            if (!url.equals(mPreferences.getString("imgUrl", ""))) {
-                SaveImageFromDataSource(url, DemoUtil.ADIMAGE_NAME);
             }
-        } else {
-            SaveImageFromDataSource(url, DemoUtil.ADIMAGE_NAME);
         }
+
     }
 
     private void SaveImageFromDataSource(String url, final String fileName) {

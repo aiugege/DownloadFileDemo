@@ -18,6 +18,7 @@ package com.leeky.myapplication;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.widget.ProgressBar;
 
 import java.io.File;
@@ -49,5 +50,14 @@ public class DemoUtil {
         } else {
             return externalSaveDir;
         }
+    }
+
+    public static String getPicName(String imgUrl){
+        if (TextUtils.isEmpty(imgUrl) || imgUrl.indexOf(".") == -1){
+            return ""; //如果图片地址为null或者地址中没有"."就返回""
+        }
+        int start = imgUrl.lastIndexOf("/") + 1;
+        int end = imgUrl.lastIndexOf(".");
+        return imgUrl.substring(start, end);
     }
 }

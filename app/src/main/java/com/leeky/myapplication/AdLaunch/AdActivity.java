@@ -1,9 +1,12 @@
 package com.leeky.myapplication.AdLaunch;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,13 +21,21 @@ import com.leeky.myapplication.DemoUtil;
 public class AdActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView imageView;
+    private SharedPreferences mPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad);
         imageView = findViewById(R.id.ad_image);
-        imageView.setImageBitmap(SplashActivity.getBitmap(DemoUtil.ADIMAGE_NAME));
+
+        mPreferences = getSharedPreferences("APP", Context.MODE_PRIVATE);
+        String imgUrl = mPreferences.getString("imgUrl", "");
+        if (!TextUtils.isEmpty(imgUrl)) {
+            imageView.setImageBitmap(SplashActivity.getBitmap(DemoUtil.getPicName(imgUrl)));
+        }
+
     }
 
     @Override
