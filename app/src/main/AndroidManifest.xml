@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdLaunch.SplashActivity">
+        <activity android:name=".NotificationActivity1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
 
         <activity android:name=".MainActivity"/>
         <activity android:name=".NotificationActivity"/>
-        <activity android:name=".NotificationActivity1"/>
+        <activity android:name=".AdLaunch.SplashActivity"/>
         <activity android:name=".AdLaunch.AdActivity"/>
 
         <provider

@@ -27,7 +27,7 @@ public class DemoUtil {
 //    https://res.51renrenhui.com/app/rrh/android/yhhz_sogou.apk
 //    https://cdn.llscdn.com/yy/files/tkzpx40x-lls-LLS-5.7-785-20171108-111118.apk
     public static final String URL =
-            "https://res.51renrenhui.com/app/rrh/android/yhhz_sogou.apk";
+            "https://cdn.llscdn.com/yy/files/tkzpx40x-lls-LLS-5.7-785-20171108-111118.apk";
 
     public static final String APK_NAME =
             "notification-file.apk";

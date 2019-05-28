@@ -53,6 +53,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
     private Context context;
 
     private NotificationCompat.Action action;
+    private String savePath;
 
     public NotificationSampleListener(Context context) {
         this.context = context.getApplicationContext();
@@ -64,6 +65,10 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 
     public void releaseTaskEndRunnable() {
         taskEndRunnable = null;
+    }
+
+    public String getSavePath(String savePath) {
+        return this.savePath = savePath;
     }
 
     public void setAction(NotificationCompat.Action action) {
@@ -190,6 +195,13 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
             // ignored.
         }, 100);
 
+        if (cause == EndCause.CANCELED) {
+            File file = new File(savePath);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+
         if (cause == EndCause.COMPLETED) {
             builder.setContentText(context.getResources().getString(R.string.download_complete));
             builder.setProgress(1, 1, false);
@@ -200,6 +212,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 //            builder.setContentIntent(pendingIntent);
         } else {
+
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override public void run() {
                     manager.notify(task.getId(), builder.build());

@@ -28,6 +28,8 @@ import android.widget.TextView;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;
 
+import java.io.File;
+
 public class NotificationActivity1 extends AppCompatActivity {
 
     private CancelReceiver cancelReceiver;
@@ -47,20 +49,25 @@ public class NotificationActivity1 extends AppCompatActivity {
         actionTv = findViewById(R.id.actionTv);
         actionView = findViewById(R.id.actionView);
 
+        String versionCode = "v" + String.valueOf(35).hashCode();
+        String sdCardPath = DemoUtil.getParentFile(this).getPath();
+        String fileName = "app_" + versionCode + ".apk";
+        String savePath = sdCardPath + File.separator + fileName;
 
-//        listener = new NotificationSampleListener(this);
-//        task = new DownloadTask
-//                .Builder(DemoUtil.URL, DemoUtil.getParentFile(this))
-//                .setPassIfAlreadyCompleted(false)
-//                .setMinIntervalMillisCallbackProcess(80)
-//                .setAutoCallbackToUIThread(false)
-//                .build();
+        listener = new NotificationSampleListener(this);
+        task = new DownloadTask
+                .Builder(DemoUtil.URL, sdCardPath, fileName)
+                .setPassIfAlreadyCompleted(false)
+                .setMinIntervalMillisCallbackProcess(80)
+                .setAutoCallbackToUIThread(false)
+                .build();
 
         downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
-        downloadUtil.initListener(actionTv);
-        downloadUtil.initTask();
-        downloadUtil.initAction(actionTv);
+        downloadUtil.initListener(actionTv, savePath);
+        downloadUtil.initTask(sdCardPath, fileName);
         downloadUtil.initManager();
+        downloadUtil.initAction(actionTv, savePath);
+
         downloadUtil.sameFileToDo(actionTv);
     }
 
