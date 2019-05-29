@@ -32,7 +32,7 @@ public class DownloadUtil {
 
     public void initListener(final TextView actionTv, String savePath) {
         if (actionTv == null) return;
-//        listener = new NotificationSampleListener(context);
+        listener = new NotificationSampleListener(context);
         listener.attachTaskEndRunnable(new Runnable() {
             @Override public void run() {
                 actionTv.setText(R.string.start);
@@ -45,12 +45,12 @@ public class DownloadUtil {
 
     public void initTask(String sdCardPath, String fileName) {
 
-//        task = new DownloadTask
-//                .Builder(DemoUtil.URL, sdCardPath, fileName)
-//                .setPassIfAlreadyCompleted(false)
-//                .setMinIntervalMillisCallbackProcess(80)
-//                .setAutoCallbackToUIThread(false)
-//                .build();
+        task = new DownloadTask
+                .Builder(DemoUtil.URL, sdCardPath, fileName)
+                .setPassIfAlreadyCompleted(false)
+                .setMinIntervalMillisCallbackProcess(80)
+                .setAutoCallbackToUIThread(false)
+                .build();
     }
 
     public void initAction(final TextView actionTv, final String savePath) {

@@ -195,19 +195,12 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
             // ignored.
         }, 100);
 
-        if (cause == EndCause.CANCELED) {
-            File file = new File(savePath);
-            if (file.exists()) {
-                file.delete();
-            }
-        }
-
         if (cause == EndCause.COMPLETED) {
             builder.setContentText(context.getResources().getString(R.string.download_complete));
             builder.setProgress(1, 1, false);
             task.addTag(20, DemoUtil.URL);
-
-            installApk(task);
+            new File(task.getFile().getPath()).renameTo(new File(savePath));
+            installApk(new File(savePath));
             manager.cancel(task.getId());
 //            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 //            builder.setContentIntent(pendingIntent);
@@ -228,6 +221,21 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         String authority = context.getPackageName() + ".provider";
         Intent intent = new Intent(Intent.ACTION_VIEW);
         File file = task.getFile();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri contentUri = FileProvider.getUriForFile(context, authority, file);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        }
+        context.startActivity(intent);
+    }
+
+    public void installApk(File file) {
+        String authority = context.getPackageName() + ".provider";
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Uri contentUri = FileProvider.getUriForFile(context, authority, file);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -52,19 +52,21 @@ public class NotificationActivity1 extends AppCompatActivity {
         String versionCode = "v" + String.valueOf(35).hashCode();
         String sdCardPath = DemoUtil.getParentFile(this).getPath();
         String fileName = "app_" + versionCode + ".apk";
+        String cacheFileName = "cache_" + versionCode + ".apk";
         String savePath = sdCardPath + File.separator + fileName;
+        String cachePath = sdCardPath + File.separator + cacheFileName;
 
-        listener = new NotificationSampleListener(this);
-        task = new DownloadTask
-                .Builder(DemoUtil.URL, sdCardPath, fileName)
-                .setPassIfAlreadyCompleted(false)
-                .setMinIntervalMillisCallbackProcess(80)
-                .setAutoCallbackToUIThread(false)
-                .build();
+//        listener = new NotificationSampleListener(this);
+//        task = new DownloadTask
+//                .Builder(DemoUtil.URL, sdCardPath, cacheFileName)
+//                .setPassIfAlreadyCompleted(false)
+//                .setMinIntervalMillisCallbackProcess(80)
+//                .setAutoCallbackToUIThread(false)
+//                .build();
 
         downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
         downloadUtil.initListener(actionTv, savePath);
-        downloadUtil.initTask(sdCardPath, fileName);
+        downloadUtil.initTask(sdCardPath, cacheFileName);
         downloadUtil.initManager();
         downloadUtil.initAction(actionTv, savePath);
 
