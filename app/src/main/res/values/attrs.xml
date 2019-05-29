@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ProgressBarDownload">
-        <attr name="textSize" />
+        <attr name="textSize" format="dimension"/>
         <attr name="loadingColor" format="color" />
         <attr name="stopColor" format="color" />
         <attr name="radius" format="dimension" />
-        <attr name="borderWidth" />
+        <attr name="borderWidth" format="dimension" />
     </declare-styleable>
 </resources>

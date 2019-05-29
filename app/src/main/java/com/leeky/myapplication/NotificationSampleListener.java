@@ -114,7 +114,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
             public void run() {
                 progressCustomDialog.showPrgoress();
                 progressCustomDialog.setUpDataInfo("更改日志");
-                progressCustomDialog.setForceUpDate(false);
+                progressCustomDialog.setForceUpDate(true);
             }
         });
 

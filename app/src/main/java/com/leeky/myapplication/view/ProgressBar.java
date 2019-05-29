@@ -30,7 +30,7 @@ public class ProgressBar extends View implements Runnable {
 
     private int DEFAULT_HEIGHT_DP = 35;
 
-    private int borderWidth;
+    private float borderWidth;
 
     public float getMaxProgress() {
         return maxProgress;
@@ -99,9 +99,9 @@ public class ProgressBar extends View implements Runnable {
      */
     private int progressColor;
 
-    private int textSize;
+    private float textSize;
 
-    private int radius;
+    private float radius;
 
     private Thread thread;
 
@@ -123,11 +123,11 @@ public class ProgressBar extends View implements Runnable {
     private void initAttrs(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.ProgressBarDownload);
         try {
-            textSize = (int) ta.getDimension(R.styleable.ProgressBarDownload_textSize, 12);
+            textSize = ta.getDimension(R.styleable.ProgressBarDownload_textSize, dp2px(12));
             loadingColor = ta.getColor(R.styleable.ProgressBarDownload_loadingColor,getContext().getResources().getColor(R.color.greed));
             stopColor = ta.getColor(R.styleable.ProgressBarDownload_stopColor, getContext().getResources().getColor(R.color.greed));
-            radius = (int) ta.getDimension(R.styleable.ProgressBarDownload_radius, 0);
-            borderWidth = (int) ta.getDimension(R.styleable.ProgressBarDownload_borderWidth, 1);
+            radius = ta.getDimension(R.styleable.ProgressBarDownload_radius, dp2px(15));
+            borderWidth = ta.getDimension(R.styleable.ProgressBarDownload_borderWidth, dp2px(5));
         } finally {
             ta.recycle();
         }
@@ -142,7 +142,7 @@ public class ProgressBar extends View implements Runnable {
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextSize(textSize);
         textRect = new Rect();
-        bgRectf = new RectF(borderWidth, borderWidth, getMeasuredWidth() - borderWidth, getMeasuredHeight() - borderWidth);
+        bgRectf = new RectF(borderWidth/2, borderWidth/2, getMeasuredWidth() - borderWidth/2, getMeasuredHeight() - borderWidth/2);
         if (isStop) {
             progressColor = stopColor;
         } else {
@@ -154,7 +154,7 @@ public class ProgressBar extends View implements Runnable {
     }
 
     private void initPgBitmap() {
-        pgBitmap = Bitmap.createBitmap(getMeasuredWidth() - borderWidth, getMeasuredHeight() - borderWidth, Bitmap.Config.ARGB_8888);
+        pgBitmap = Bitmap.createBitmap((int)(getMeasuredWidth() - borderWidth), (int)(getMeasuredHeight() - borderWidth), Bitmap.Config.ARGB_8888);
         pgCanvas = new Canvas(pgBitmap);
         thread = new Thread(this);
         thread.start();
@@ -248,7 +248,7 @@ public class ProgressBar extends View implements Runnable {
 
     private int dp2px(int dp) {
         float density = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dp * density);
+        return (int) (dp * density + 0.5f);
     }
 
     @Override
