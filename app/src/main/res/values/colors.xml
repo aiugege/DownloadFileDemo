@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffffff</color>
+    <color name="greed">#27C2B4</color>
+    <color name="download_progress">#707070</color>
 </resources>

@@ -32,6 +32,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.SpeedCalculator;
 import com.liulishuo.okdownload.core.breakpoint.BlockInfo;
@@ -54,9 +55,12 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 
     private NotificationCompat.Action action;
     private String savePath;
+    private ProgressCustomDialog progressCustomDialog;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
-    public NotificationSampleListener(Context context) {
+    public NotificationSampleListener(Context context, ProgressCustomDialog progressCustomDialog) {
         this.context = context.getApplicationContext();
+        this.progressCustomDialog = progressCustomDialog;
     }
 
     public void attachTaskEndRunnable(Runnable taskEndRunnable) {
@@ -82,7 +86,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final NotificationChannel channel = new NotificationChannel(
                     channelId,
-                    "OkDownloadSample",
+                    "OkDownload",
                     NotificationManager.IMPORTANCE_MIN);
             manager.createNotificationChannel(channel);
         }
@@ -105,6 +109,15 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 
     @Override public void taskStart(@NonNull DownloadTask task) {
         Log.d("NotificationActivity", "taskStart");
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressCustomDialog.showPrgoress();
+                progressCustomDialog.setUpDataInfo("更改日志");
+                progressCustomDialog.setForceUpDate(false);
+            }
+        });
+
         builder.setTicker("taskStart");
         builder.setOngoing(true);
         builder.setAutoCancel(false);
@@ -165,6 +178,13 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //        builder.setContentText("downloading with speed: " + taskSpeed.speed());
         float percent = (float) currentOffset / totalLength;
         int progress = (int) (percent * 100);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                progressCustomDialog.setProgressbar(progress);
+            }
+        });
+
         builder.setContentText(context.getResources().getString(R.string.downloading) + progress + "%");
         builder.setProgress(totalLength, (int) currentOffset, false);
         manager.notify(task.getId(), builder.build());
@@ -187,7 +207,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //                "task end " + cause + " average speed: " + taskSpeed.averageSpeed());
 
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override public void run() {
                 if (taskEndRunnable != null) taskEndRunnable.run();
             }
@@ -198,6 +218,12 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         if (cause == EndCause.COMPLETED) {
             builder.setContentText(context.getResources().getString(R.string.download_complete));
             builder.setProgress(1, 1, false);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    progressCustomDialog.finshLoad();
+                }
+            });
             task.addTag(20, DemoUtil.URL);
             new File(task.getFile().getPath()).renameTo(new File(savePath));
             installApk(new File(savePath));
@@ -206,12 +232,11 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //            builder.setContentIntent(pendingIntent);
         } else {
 
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+           handler.postDelayed(new Runnable() {
                 @Override public void run() {
+                    progressCustomDialog.dismiss();
                     manager.notify(task.getId(), builder.build());
                 }
-                // because of on some android phone too frequency notify for same id would be
-                // ignored.
             }, 100);
         }
 

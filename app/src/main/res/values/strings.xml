@@ -15,4 +15,6 @@
     <string name="start_download">开始下载</string>
     <string name="downloading">已下载</string>
     <string name="download_complete">下载完成</string>
+
+    <string name="update_title">更新的内容</string>
 </resources>

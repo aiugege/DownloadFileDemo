@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;
 
@@ -41,6 +42,7 @@ public class NotificationActivity1 extends AppCompatActivity {
     private View actionView;
 
     private DownloadUtil downloadUtil;
+    private ProgressCustomDialog progressCustomDialog;
 
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class NotificationActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
         actionTv = findViewById(R.id.actionTv);
         actionView = findViewById(R.id.actionView);
+        progressCustomDialog = new ProgressCustomDialog(this);
 
         String versionCode = "v" + String.valueOf(35).hashCode();
         String sdCardPath = DemoUtil.getParentFile(this).getPath();
@@ -65,7 +68,7 @@ public class NotificationActivity1 extends AppCompatActivity {
 //                .build();
 
         downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
-        downloadUtil.initListener(actionTv, savePath);
+        downloadUtil.initListener(actionTv, savePath, progressCustomDialog);
         downloadUtil.initTask(sdCardPath, cacheFileName);
         downloadUtil.initManager();
         downloadUtil.initAction(actionTv, savePath);
@@ -77,6 +80,9 @@ public class NotificationActivity1 extends AppCompatActivity {
         super.onDestroy();
         if (listener != null) {
             listener.releaseTaskEndRunnable();
+        }
+        if (progressCustomDialog != null && progressCustomDialog.getSimpleDialog().isShowing()) {
+            progressCustomDialog.dismiss();
         }
     }
 

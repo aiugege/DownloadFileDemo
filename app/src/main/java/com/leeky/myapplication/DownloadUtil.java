@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;
 
@@ -30,9 +31,9 @@ public class DownloadUtil {
         this.listener = listener;
     }
 
-    public void initListener(final TextView actionTv, String savePath) {
+    public void initListener(final TextView actionTv, String savePath, ProgressCustomDialog progressCustomDialog) {
         if (actionTv == null) return;
-        listener = new NotificationSampleListener(context);
+        listener = new NotificationSampleListener(context, progressCustomDialog);
         listener.attachTaskEndRunnable(new Runnable() {
             @Override public void run() {
                 actionTv.setText(R.string.start);

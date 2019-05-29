@@ -29,6 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadListener;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;
@@ -43,6 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     private TextView actionTv;
     private View actionView;
+    private ProgressCustomDialog progressCustomDialog;
 
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
         actionTv = findViewById(R.id.actionTv);
         actionView = findViewById(R.id.actionView);
+        progressCustomDialog = new ProgressCustomDialog(this);
 
         initListener();
         initTask();
@@ -72,6 +75,9 @@ public class NotificationActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(cancelReceiver);
         listener.releaseTaskEndRunnable();
+        if (progressCustomDialog != null && progressCustomDialog.getSimpleDialog().isShowing()) {
+            progressCustomDialog.dismiss();
+        }
     }
 
     private void initAction() {
@@ -108,7 +114,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
     private void initListener() {
-        listener = new NotificationSampleListener(this);
+        listener = new NotificationSampleListener(this, progressCustomDialog);
         listener.attachTaskEndRunnable(new Runnable() {
             @Override public void run() {
                 actionTv.setText(R.string.start);

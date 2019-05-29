@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    
+    <RelativeLayout
+        android:layout_width="@dimen/px749"
+        android:background="@mipmap/upload_bg"
+        android:layout_height="@dimen/px1076">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/px439"
+            android:layout_marginLeft="@dimen/px56"
+            android:text="@string/update_title"
+            android:textSize="@dimen/sp40"
+            android:textColor="#ff333333" />
+
+        <TextView
+            android:id="@+id/update_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/px531"
+            android:layout_marginLeft="@dimen/px56"
+            android:layout_marginRight="@dimen/px78"
+            android:textSize="@dimen/sp37"
+            android:lineSpacingExtra="@dimen/px42"/>
+
+
+        <com.leeky.myapplication.view.ProgressBar
+            android:id="@+id/round_flikerbar"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:loadingColor="@color/greed"
+            android:layout_marginLeft="@dimen/px56"
+            android:layout_marginRight="@dimen/px78"
+            android:layout_marginBottom="@dimen/px62"
+            app:radius="@dimen/px53"
+            app:textSize="@dimen/sp37" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/update_close"
+        android:layout_marginTop="@dimen/px53"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/video_close"/>
+
+</LinearLayout>
