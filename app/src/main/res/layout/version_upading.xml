@@ -36,7 +36,7 @@
             android:id="@+id/round_flikerbar"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             app:loadingColor="@color/greed"
             android:layout_marginLeft="@dimen/px56"
             android:layout_marginRight="@dimen/px78"
