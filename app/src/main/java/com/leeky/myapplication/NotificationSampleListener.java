@@ -109,13 +109,10 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 
     @Override public void taskStart(@NonNull DownloadTask task) {
         Log.d("NotificationActivity", "taskStart");
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                progressCustomDialog.showPrgoress();
-                progressCustomDialog.setUpDataInfo("更改日志");
-                progressCustomDialog.setForceUpDate(true);
-            }
+        handler.post(() -> {
+            progressCustomDialog.showPrgoress();
+            progressCustomDialog.setUpDataInfo("更改日志");
+            progressCustomDialog.setForceUpDate(true);
         });
 
         builder.setTicker("taskStart");
@@ -178,12 +175,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //        builder.setContentText("downloading with speed: " + taskSpeed.speed());
         float percent = (float) currentOffset / totalLength;
         int progress = (int) (percent * 100);
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                progressCustomDialog.setProgressbar(progress);
-            }
-        });
+        handler.post(() -> progressCustomDialog.setProgressbar(progress));
 
         builder.setContentText(context.getResources().getString(R.string.downloading) + progress + "%");
         builder.setProgress(totalLength, (int) currentOffset, false);
@@ -207,23 +199,16 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //                "task end " + cause + " average speed: " + taskSpeed.averageSpeed());
 
 
-        handler.postDelayed(new Runnable() {
-            @Override public void run() {
-                if (taskEndRunnable != null) taskEndRunnable.run();
-            }
-            // because of on some android phone too frequency notify for same id would be
-            // ignored.
+        // because of on some android phone too frequency notify for same id would be
+        // ignored.
+        handler.postDelayed(() -> {
+            if (taskEndRunnable != null) taskEndRunnable.run();
         }, 100);
 
         if (cause == EndCause.COMPLETED) {
             builder.setContentText(context.getResources().getString(R.string.download_complete));
             builder.setProgress(1, 1, false);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    progressCustomDialog.finshLoad();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> progressCustomDialog.finshLoad());
             task.addTag(20, DemoUtil.URL);
             new File(task.getFile().getPath()).renameTo(new File(savePath));
             installApk(new File(savePath));
@@ -232,12 +217,10 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
 //            builder.setContentIntent(pendingIntent);
         } else {
 
-           handler.postDelayed(new Runnable() {
-                @Override public void run() {
-                    progressCustomDialog.dismiss();
-                    manager.notify(task.getId(), builder.build());
-                }
-            }, 100);
+           handler.postDelayed(() -> {
+               progressCustomDialog.dismiss();
+               manager.notify(task.getId(), builder.build());
+           }, 100);
         }
 
     }
