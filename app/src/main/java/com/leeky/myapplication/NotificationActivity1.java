@@ -16,18 +16,16 @@
 
 package com.leeky.myapplication;
 
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.leeky.myapplication.utils.DemoUtil;
+import com.leeky.myapplication.utils.DownloadUtil;
 import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
-import com.liulishuo.okdownload.StatusUtil;
 
 import java.io.File;
 

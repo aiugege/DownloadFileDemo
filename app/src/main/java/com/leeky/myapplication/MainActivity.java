@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.leeky.myapplication.utils.DemoUtil;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.SpeedCalculator;
 import com.liulishuo.okdownload.StatusUtil;

@@ -1,4 +1,4 @@
-package com.leeky.myapplication;
+package com.leeky.myapplication.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,10 @@ import android.os.Build;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.leeky.myapplication.GlobalTaskManager;
+import com.leeky.myapplication.NotificationSampleListener;
+import com.leeky.myapplication.R;
 import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.StatusUtil;

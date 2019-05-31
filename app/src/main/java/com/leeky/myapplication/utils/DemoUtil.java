@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.leeky.myapplication;
+package com.leeky.myapplication.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

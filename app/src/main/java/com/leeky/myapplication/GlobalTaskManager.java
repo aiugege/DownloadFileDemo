@@ -9,27 +9,27 @@ import com.liulishuo.okdownload.UnifiedListenerManager;
 public class GlobalTaskManager {
     private UnifiedListenerManager manager;
 
-    private GlobalTaskManager() {
+    public GlobalTaskManager() {
         manager = new UnifiedListenerManager();
     }
 
-    private static class ClassHolder {
+    public static class ClassHolder {
         private static final GlobalTaskManager INSTANCE = new GlobalTaskManager();
     }
 
-    static GlobalTaskManager getImpl() {
+    public static GlobalTaskManager getImpl() {
         return GlobalTaskManager.ClassHolder.INSTANCE;
     }
 
-    void addAutoRemoveListenersWhenTaskEnd(int id) {
+    public void addAutoRemoveListenersWhenTaskEnd(int id) {
         manager.addAutoRemoveListenersWhenTaskEnd(id);
     }
 
-    void attachListener(@NonNull DownloadTask task, @NonNull DownloadListener listener) {
+    public void attachListener(@NonNull DownloadTask task, @NonNull DownloadListener listener) {
         manager.attachListener(task, listener);
     }
 
-    void enqueueTask(@NonNull DownloadTask task,
+    public void enqueueTask(@NonNull DownloadTask task,
                      @NonNull DownloadListener listener) {
         manager.enqueueTaskWithUnifiedListener(task, listener);
     }

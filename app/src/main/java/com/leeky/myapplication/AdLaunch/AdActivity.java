@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.leeky.myapplication.MainActivity;
 import com.leeky.myapplication.R;
 
-import com.leeky.myapplication.DemoUtil;
+import com.leeky.myapplication.utils.DemoUtil;
 
 /**
  * Created by Leeky on 2019/5/22.
