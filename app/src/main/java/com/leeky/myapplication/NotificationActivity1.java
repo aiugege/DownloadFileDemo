@@ -26,6 +26,7 @@ import com.leeky.myapplication.utils.DemoUtil;
 import com.leeky.myapplication.utils.DownloadUtil;
 import com.leeky.myapplication.view.ProgressCustomDialog;
 import com.liulishuo.okdownload.DownloadTask;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 
@@ -65,13 +66,16 @@ public class NotificationActivity1 extends AppCompatActivity {
 //                .setAutoCallbackToUIThread(false)
 //                .build();
 
-        downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
-        downloadUtil.initListener(actionTv, savePath, progressCustomDialog);
-        downloadUtil.initTask(sdCardPath, cacheFileName);
-        downloadUtil.initManager();
-        downloadUtil.initAction(actionTv, savePath);
-
-        downloadUtil.sameFileToDo(actionTv);
+        try {
+            downloadUtil = new DownloadUtil(NotificationActivity1.this, task, listener);
+            downloadUtil.initListener(actionTv, savePath, progressCustomDialog);
+            downloadUtil.initTask(sdCardPath, cacheFileName);
+            downloadUtil.initManager();
+            downloadUtil.initAction(actionTv, savePath);
+            downloadUtil.sameFileToDo(actionTv);
+        } catch (Exception e) {
+            CrashReport.postCatchedException(e, Thread.currentThread());
+        }
     }
 
     @Override protected void onDestroy() {
